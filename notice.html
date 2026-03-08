@@ -5,7 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판 - HUFS Marathon</title>
     
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .content-row td {
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .content-row h1, .content-row h2, .content-row h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #004098;
+        }
+        .content-row p {
+            line-height: 1.8;
+        }
+        .content-row img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+        }
+        .board-table a {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     
@@ -82,41 +105,124 @@
             </div>
 
             <div class="content-text">
-        
                 <table class="board-table">
-        
-        <thead>
-            <tr>
-                <th style="width: 10%">번호</th>
-                <th>제목</th>
-                <th style="width: 15%">작성자</th>
-                <th style="width: 15%">작성일</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td><a href="#">[필독] 2026 대회 접수 시작 안내</a></td>
-                <td>관리자</td>
-                <td>2026.02.18</td>
-            </tr>
-            </tbody>
-        </table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">번호</th>
+                            <th>제목</th>
+                            <th style="width: 15%">작성자</th>
+                            <th style="width: 15%">작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
 
-        </main>
-    </div> <footer>
+    <footer>
         <p>주최명: 한국외국어대학교 글로벌스포츠산업학부 | 대표: 노은담</p>
         <p>HUFS Marathon | 경기도 용인시 처인구 외대로 81</p>
         <p>Copyright © 2026 HUFS Marathon. All rights reserved.</p>
     </footer>
-<script>
-    const hamburger = document.querySelector('.hamburger');
-    const gnb = document.querySelector('.gnb');
 
-    hamburger.addEventListener('click', () => {
-        gnb.classList.toggle('active');
-    });
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/gray-matter@4.0.3/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@3.0.7/marked.min.js"></script>
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const gnb = document.querySelector('.gnb');
+
+        hamburger.addEventListener('click', () => {
+            gnb.classList.toggle('active');
+        });
+
+        const tbody = document.querySelector('.board-table tbody');
+
+        async function fetchNotices() {
+            try {
+                const response = await fetch('/.netlify/git/github/contents/notice');
+                if (!response.ok) {
+                    throw new Error('공지사항을 불러오는 데 실패했습니다.');
+                }
+                const files = await response.json();
+
+                if (!files.length) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td colspan="4">공지사항이 없습니다.</td>`;
+                    tbody.appendChild(row);
+                    return;
+                }
+
+                const promises = files.map(async (file) => {
+                    const res = await fetch(file.download_url);
+                    const text = await res.text();
+                    const { data, content } = matter(text);
+                    data.slug = file.name.replace('.md', '');
+                    data.content = content;
+                    return data;
+                });
+
+                let posts = await Promise.all(promises);
+                posts = posts.filter(p => Object.keys(p).length > 1);
+                posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                posts.forEach((post, index) => {
+                    const row = document.createElement('tr');
+                    const postDate = new Date(post.date);
+                    const formattedDate = !isNaN(postDate) ? postDate.toLocaleDateString() : '유효하지 않은 날짜';
+                    row.innerHTML = `
+                        <td>${posts.length - index}</td>
+                        <td><a class="notice-title" data-slug="${post.slug}">${post.title || '제목 없음'}</a></td>
+                        <td>관리자</td>
+                        <td>${formattedDate}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error(error);
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="4">${error.message}</td>`;
+                tbody.appendChild(row);
+            }
+        }
+
+        tbody.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('notice-title')) {
+                const titleLink = e.target;
+                const parentRow = titleLink.closest('tr');
+                const slug = titleLink.dataset.slug;
+
+                const existingContentRow = parentRow.nextElementSibling;
+                if (existingContentRow && existingContentRow.classList.contains('content-row')) {
+                    existingContentRow.remove();
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/.netlify/git/github/contents/notice/${slug}.md`);
+                    if (!response.ok) {
+                        throw new Error('게시물을 불러오는 데 실패했습니다.');
+                    }
+                    const file = await response.json();
+                    const text = atob(file.content);
+                    const { content } = matter(text);
+                    
+                    const contentRow = document.createElement('tr');
+                    contentRow.classList.add('content-row');
+                    contentRow.innerHTML = `<td colspan="4">${marked(content)}</td>`;
+                    
+                    parentRow.after(contentRow);
+
+                } catch (error) {
+                    console.error(error);
+                    alert('게시물 내용을 불러오는 데 실패했습니다.');
+                }
+            }
+        });
+
+        fetchNotices();
+    </script>
 </body>
 </html>
