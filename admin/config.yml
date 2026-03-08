@@ -1,8 +1,9 @@
 backend:
-  name: git-gateway
-  branch: main # 또는 master 등 현재 배포 브랜치 이름
+  name: github
+  repo: aay0909-rgb/Marathon_Project # 깃허브 저장소 주소 (경로 형식: 소유자/레포지토리)
+  branch: main # 기본 배포 브랜치
 
-# 이미지 업로드 설정 (로컬 개발용)
+# 이미지 업로드 설정 (로컬 및 CMS 업로드용)
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
