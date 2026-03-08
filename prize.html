@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경품 및 기념품 - 2026 HUFS Marathon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="logo"><a href="index.html">🏃 HUFS MARATHON</a></div>
+            <nav>
+                <ul class="gnb">
+                    <li><a href="info.html" class="main-menu">대회안내</a></li>
+                    <li><a href="course.html" class="main-menu">대회코스</a></li>
+                    <li><a href="register.html" class="main-menu">참가신청</a></li>
+                    <li><a href="notice.html" class="main-menu">게시판</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="sub-visual">
+        <h2>대회안내</h2>
+        <p>GIVEAWAY & LUCKY DRAW</p>
+    </div>
+
+    <div class="container layout">
+        <aside class="sidebar">
+            <h3>대회안내</h3>
+            <ul>
+                <li><a href="info.html">대회요강</a></li>
+                <li><a href="map.html">광장 배치도</a></li>
+                <li class="active"><a href="prize.html">경품 및 기념품 안내</a></li>
+                <li><a href="awards.html">시상 안내</a></li>
+                <li><a href="rules.html">참가자 유의사항</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <div class="page-title">
+                <h3>경품 및 기념품 안내</h3>
+                <div class="breadcrumb">HOME > 대회안내 > <strong>경품 및 기념품</strong></div>
+            </div>
+            <div class="content-text" style="text-align: center; padding: 80px 20px; border: 1px dashed #ddd; background: #fafafa;">
+                <p style="font-size: 3rem; margin-bottom: 20px;">🎁</p>
+                <h4 style="font-size: 1.5rem; color: #333;">기념품 준비 중</h4>
+                <p style="color: #666; line-height: 1.6;">참가자 여러분께 드릴 기념품과 럭키드로우 경품을 정성껏 준비 중입니다.<br>구성품이 확정되는 대로 이곳에 공개하겠습니다.</p>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-inner">
+            <p>주최명: 한국외국어대학교 글로벌스포츠산업학부 | 대표: 노은담</p>
+            <p>Copyright © 2026 HUFS Marathon. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const gnb = document.querySelector('.gnb');
+
+        hamburger.addEventListener('click', () => {
+            gnb.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

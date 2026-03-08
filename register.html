@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>참가신청 - 2026 HUFS Marathon</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo"><a href="index.html">🏃 HUFS MARATHON</a></div>
+            
+            <nav>
+                <ul class="gnb">
+                    <li>
+                        <a href="info.html" class="main-menu">대회안내</a>
+                        <ul class="dropdown">
+                            <li><a href="info.html">대회요강</a></li>
+                            <li><a href="map.html">광장 배치도</a></li>
+                            <li><a href="prize.html">경품 및 기념품 안내</a></li>
+                            <li><a href="awards.html">시상 안내</a></li>
+                            <li><a href="rules.html">참가자 유의사항</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="course.html" class="main-menu">대회코스</a>
+                        <ul class="dropdown">
+                            <li><a href="course.html">5km 코스</a></li>
+                            <li><a href="course.html">10km 코스</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="register.html" class="main-menu">참가신청</a>
+                        <ul class="dropdown">
+                            <li><a href="register.html">신청 및 취소 안내</a></li>
+                            <li><a href="#">10km 신청</a></li>
+                            <li><a href="#">5km 신청</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="notice.html" class="main-menu">게시판</a>
+                        <ul class="dropdown">
+                            <li><a href="notice.html">공지사항</a></li>
+                            <li><a href="#">사진 & 영상</a></li>
+                            <li><a href="#">종목 변경 문의</a></li>
+                            <li><a href="#">취소/환불 문의</a></li>
+                            <li><a href="#">자유게시판</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="sub-visual">
+        <h2>참가신청</h2>
+        <p>REGISTER</p>
+    </div>
+
+    <div class="container layout">
+        
+        <aside class="sidebar">
+        <h3>참가신청</h3> <ul>
+            <li class="active"><a href="register.html">신청 및 취소 안내</a></li>
+            <li><a href="#">10km 신청</a></li>
+            <li><a href="#">5km 신청</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <div class="page-title">
+            <h3>신청 및 취소 안내</h3> <div class="breadcrumb">HOME > 참가 신청 > <strong>신청 및 취소 안내</strong></div>
+        </div>
+
+        <div class="content-text">
+            <h4>📅 접수 기간</h4>
+            <p>2026년 3월 16일 ~ 2026년 5월 10일 (선착순 마감)</p>
+
+            <h4>💰 참가비 안내</h4>
+            <table class="course-table"> <tr>
+                    <th>종목</th>
+                    <th>참가비</th>
+                    <th>비고</th>
+                </tr>
+                <tr>
+                    <td>10km</td>
+                    <td>40,000원</td>
+                    <td>기념 티셔츠, 완주 메달 제공</td>
+                </tr>
+                <tr>
+                    <td>5km</td>
+                    <td>30,000원</td>
+                    <td>기념 티셔츠, 완주 메달 제공</td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="#" class="btn-main">지금 바로 신청하기</a>
+            </div>
+        </div>
+    </main>
+
+    </div> <footer>
+        <p>주최명: 한국외국어대학교 글로벌스포츠산업학부 | 대표: 노은담</p>
+        <p>HUFS Marathon | 경기도 용인시 처인구 외대로 81</p>
+        <p>Copyright © 2026 HUFS Marathon. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const gnb = document.querySelector('.gnb');
+
+        hamburger.addEventListener('click', () => {
+            gnb.classList.toggle('active');
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,880 @@
+/* Gmarket Sans 웹폰트 불러오기 */
+
+@import url('https://webfontworld.github.io/gmarket/GmarketSans.css');
+
+/* style.css 복구 코드 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+    scroll-behavior: smooth; /* 부드러운 스크롤 효과 */
+}
+
+/* 현재 보고 있는 섹션 강조 효과 (선택사항) */
+section:target h4 {
+    background-color: #f0f7ff;
+    transition: 0.5s;
+}
+
+body {
+    font-family: 'GmarketSans', sans-serif; /* 전체 폰트 적용 */
+    color: #333;
+    line-height: 1.7; /* 줄 간격을 살짝 넓혀서 시원하게 만듦 */
+    letter-spacing: -0.3px; /* 자간을 살짝 조여서 쫀쫀하게 만듦 */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased; /* 글자 외곽선을 매끄럽게 */
+}
+
+/* 굵기 조절 (Gmarket Sans는 Light, Medium, Bold 3종류를 지원합니다) */
+strong, h1, h2, h3, h4, h5 {
+    font-weight: 700; /* 제목은 Bold */
+}
+p, td, li, a {
+    font-weight: 500; /* 본문은 Medium (가장 읽기 좋음) */
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* 헤더 & 메뉴 */
+header { border-bottom: 1px solid #ddd; background: white; position: sticky; top: 0; z-index: 1000; }
+.header-inner { max-width: 1200px; margin: 0 auto; height: 80px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+.logo a { font-size: 1.5rem; font-weight: bold; color: #004098; }
+.gnb { display: flex; gap: 40px; }
+.gnb > li { position: relative; height: 80px; display: flex; align-items: center; }
+.main-menu { font-weight: 600; font-size: 1.1rem; padding: 10px 0; }
+.gnb > li:hover .main-menu { color: #004098; }
+
+/* 드롭다운 */
+.dropdown { display: none; position: absolute; top: 80px; left: 50%; transform: translateX(-50%); background: white; min-width: 180px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 3px solid #004098; padding: 10px 0; }
+.gnb > li:hover .dropdown { display: block; }
+.dropdown li a { display: block; padding: 10px 20px; font-size: 0.95rem; color: #555; white-space: nowrap; }
+.dropdown li a:hover { background: #f4f4f4; color: #004098; font-weight: bold; }
+/* 레이아웃 (수정됨) */
+.layout, .container {
+    max-width: 1400px;      /* 1200 -> 1400으로 확장! (화면을 더 넓게 씀) */
+    width: 90%;             /* 모바일 등에서는 90%만 사용 */
+    margin: 0 auto;
+    padding: 60px 0;        /* 안쪽 여백을 좀 더 시원하게 */
+    display: flex;          /* 옆으로 나란히 배치 */
+    gap: 60px;              /* 사이드바와 본문 사이 간격을 40->60으로 넓힘 */
+    align-items: flex-start; /* ★ 사이드바 고정을 위해 꼭 필요함 */
+}
+
+/* 사이드바 고정 설정 */
+.sidebar {
+    width: 240px;           /* 너비 220 -> 240 소폭 확대 */
+    flex-shrink: 0;         /* 절대 찌그러지지 않음 */
+    position: sticky;       /* ★ 스크롤 내려도 화면에 붙어있게 함 */
+    top: 100px;             /* 화면 위에서 100px 떨어진 곳에 고정 */
+}
+
+.sidebar h3 {
+    font-size: 1.8rem;
+    border-bottom: 3px solid #004098; /* 디자인 포인트: 파란 굵은 줄 */
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.sidebar li a {
+    display: block;             /* 박스 형태로 만듦 */
+    /* ⬇️ 핵심: 여백을 늘려서 시원하게 만듦 */
+    padding: 20px 15px;         /* 위아래: 15px -> 20px로 늘림 (버튼 뚱뚱하게) */
+    margin-bottom: 10px;        /* ⬇️ 메뉴 사이에 10px 틈을 줌 (다닥다닥 해결!) */
+    border-bottom: 1px solid #eee; /* 아래쪽 얇은 선 */
+    color: #666;
+    transition: 0.3s;           /* 부드럽게 변하는 효과 */
+    font-size: 1.05rem;         /* 글자 크기도 살짝 키워서 가독성 높임 */
+}
+
+.sidebar li a:hover,
+.sidebar li.active a {
+    background: #f4f8ff;
+    color: #004098;
+    font-weight: bold;
+    border-radius: 8px;         /* 🏷️ 모서리를 둥글게 깎음 */
+    border-bottom: none;        /* 배경색이 들어오면 밑줄은 없애기 */
+}
+
+/* 본문 영역: 남은 공간 다 쓰기 */
+.content {
+    flex: 1;                /* 남은 공간 100% 차지 */
+    min-width: 0;           /* 내용이 넘쳐도 레이아웃 깨짐 방지 */
+    width: 100%;            /* 명시적으로 100% 지정 */
+}
+
+.page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;  /* 글자 밑라인 맞춤 */
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 40px;    /* 표와 간격 벌리기 */
+}
+
+.page-title h3 {
+    font-size: 2rem;        /* 제목 더 크게 */
+    color: #333;
+}
+
+/* 메인 페이지(Hero) */
+/* 메인 히어로 섹션 디자인 */
+.hero {
+    /* 1. 이미지 경로 설정 및 어두운 오버레이 추가 (글자가 잘 보이게) */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+                url('images/hero-bg.png');
+    background-size: cover;      /* 화면에 꽉 차게 */
+    background-position: center; /* 가운데 정렬 */
+    background-attachment: fixed; /* 스크롤 시 이미지가 고정되는 효과 (고급스러움) */
+    height: 90vh; /* 화면 높이의 90% 차지 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+/* 히어로 섹션 내부 텍스트 스타일링 */
+.hero h1 {
+    font-size: 5rem;
+    font-weight: 900; /* Gmarket Sans의 가장 두꺼운 느낌 */
+    line-height: 1.1;
+    margin-bottom: 25px;
+    letter-spacing: -2px;
+    /* 글자 뒤에 은은한 그림자를 주어 가독성 확보 */
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+.hero p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tag {
+    background: #00d2ff; /* 밝고 에너제틱한 하늘색 */
+    background: linear-gradient(to right, #00d2ff, #3a7bd5); /* 그라데이션으로 입체감 */
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    display: inline-block;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);
+    animation: bounce 2s infinite; /* 톡톡 튀는 효과 추가 */
+}
+.btn-group { display: flex; gap: 15px; justify-content: center; }
+.btn-main {
+    background: #004098; /* 외대 메인 네이비 */
+    color: white;
+    padding: 18px 45px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    border: 2px solid #004098;
+    box-shadow: 0 10px 20px rgba(0, 64, 152, 0.2);
+    display: inline-block;
+}
+
+.btn-main:hover {
+    background: #fff;
+    color: #004098;
+    transform: translateY(-3px); /* 위로 살짝 뜨는 효과 */
+    box-shadow: 0 15px 30px rgba(0, 64, 152, 0.3);
+}
+/* 3. 대회 요강 보기 버튼 (외대 네이비 테두리) */
+.btn-outline {
+    border: 2px solid white;
+    color: white;
+    padding: 18px 45px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+/* 기타 */
+/* 메인 페이지 정보 섹션 (home-info) */
+/* 메인 정보 섹션 - 와이드 버전 */
+.home-info {
+    width: 100%; /* 배경은 화면 끝까지 채움 */
+    background-color: #f8faff;
+    padding: 100px 0;
+}
+
+/* 1. 컨테이너의 제한을 풀거나, 새로운 와이드 컨테이너를 적용 */
+.home-info .container {
+    max-width: 100% !important; /* ★ 1200px 같은 숫자를 지우고 100%로 강제 */
+    padding: 0 50px; /* 너무 벽에 붙으면 안 예쁘니까 최소한의 여백만 부여 */
+    margin: 0; /* 중앙 정렬 해제 */
+    width: 100%;
+}
+
+/* 2. 박스들이 서로 멀어지게 만들기 */
+.info-grid {
+    display: flex;
+    justify-content: space-between; /* 양 끝으로 쫙 밀어내기 */
+    width: 100%; /* 부모 너비를 다 쓰기 */
+    gap: 30px; /* 박스 사이 간격 */
+}
+
+/* 3. 각 박스가 남은 공간을 다 잡아먹게 하기 */
+.info-item {
+    flex: 1; /* ★ 중요: 셋이서 화면 전체 너비를 1/3씩 정확히 나눠 가짐 */
+    min-height: 300px; /* 박스가 커 보이기 위해 최소 높이 설정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.info-item:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 25px 50px rgba(0, 64, 152, 0.1);
+    border-color: #004098;
+}
+
+/* 아이콘 및 텍스트 강조 */
+.info-item .icon {
+    font-size: 4rem;
+    margin-bottom: 30px;
+    display: inline-block;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+}
+.info-item h3 {
+    font-size: 1.8rem; /* 제목 크기 확대 */
+    color: #004098;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 15px;
+}
+/* 제목 아래 짧은 강조선 */
+.info-item h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: #004098;
+    border-radius: 2px;
+}
+.info-item p {
+    font-size: 1.5rem; /* 가장 중요한 정보 크기 */
+    margin-bottom: 15px;
+    color: #111;
+}
+.info-item span {
+    font-size: 1.2rem;
+    color: #777;
+    letter-spacing: -0.5px;
+}
+
+footer { background: #333; color: #bbb; padding: 30px 0; text-align: center; margin-top: auto; }
+
+/* =========================================
+
+   추가: 서브 페이지 상단 배너 (파란 띠)
+
+   ========================================= */
+
+/* style.css 파일 맨 아래에 복사해서 붙여넣으세요 */
+
+.sub-visual {
+    width: 100vw;           /* 화면 너비의 100%를 무조건 채움 (강제) */
+    margin-left: calc(-50vw + 50%); /* 혹시 부모 태그에 갇혀있어도 강제로 뚫고 나감 */
+    margin-right: calc(-50vw + 50%);
+    background: #004098;    /* 파란색 배경 */
+    color: white;           /* 흰색 글씨 */
+    padding: 60px 0;        /* 위아래 높이 */
+    display: flex;          /* 내용물 가운데 정렬용 */
+    flex-direction: column; /* 글자랑 NOTICE를 위아래로 배치 */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.sub-visual h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;    /* NOTICE 글자와의 간격 */
+}
+
+.sub-visual p {
+    font-size: 1.2rem;
+    opacity: 0.8;           /* 약간 투명하게 해서 세련되게 */
+    letter-spacing: 4px;    /* 글자 간격 넓히기 */
+    font-weight: 300;
+}
+
+/* =========================================
+
+   새로 추가: 게시판 표 디자인 (꽉 채우기)
+
+   ========================================= */
+
+.board-table {
+    width: 100%;             /* ★ 핵심: 표를 양옆으로 쫙 늘려라! */
+    border-collapse: collapse; /* 테두리 겹침 방지 (깔끔하게) */
+    border-top: 2px solid #004098; /* 맨 위에 파란색 진한 줄 */
+    margin-top: 20px;        /* 위쪽 여백 */
+}
+
+/* 제목 줄 (헤더) 스타일 */
+.board-table th {
+    background: #f8f9fa;     /* 아주 연한 회색 배경 */
+    color: #333;             /* 글자색 */
+    font-weight: bold;       /* 굵게 */
+    padding: 15px 0;         /* 위아래 통통하게 (여백) */
+    border-bottom: 1px solid #ddd; /* 아래쪽 얇은 줄 */
+}
+
+/* 내용 줄 (데이터) 스타일 */
+.board-table td {
+    padding: 15px 10px;      /* 위아래 여백을 줘서 시원하게 */
+    border-bottom: 1px solid #eee; /* 아주 연한 줄 */
+    color: #555;
+    text-align: center;      /* 기본은 가운데 정렬 */
+}
+
+/* 제목 칸만 왼쪽 정렬 (제목은 기니까요) */
+.board-table td:nth-child(2) {
+    text-align: left;        /* 제목만 왼쪽 정렬 */
+    padding-left: 20px;
+}
+
+/* 마우스 올렸을 때 효과 */
+.board-table tr:hover td {
+    background-color: #f9f9f9; /* 마우스 대면 살짝 색 변함 */
+}
+/* =========================================
+
+   본문 내용 간격 벌리기 (register.html 등)
+
+   ========================================= */
+
+/* 제목(h4) 위아래로 여백을 듬뿍 줍니다 */
+.content-text h4 {
+    margin-top: 60px;       /* ⬆️ 위쪽 여백: 윗 내용이랑 60px 떨어짐 (확실하게!) */
+    margin-bottom: 20px;    /* ⬇️ 아래쪽 여백: 설명글이랑 20px 떨어짐 */
+    font-size: 1.4rem;      /* 글자 크기도 조금 키워서 시원하게 */
+    color: #004098;         /* 제목 색상을 파란색으로 포인트 */
+    border-left: 5px solid #004098; /* 왼쪽에 파란 막대 장식 추가 */
+    padding-left: 15px;     /* 막대랑 글자 사이 간격 */
+}
+
+/* (꿀팁) 맨 첫 번째 제목은 위쪽 여백이 필요 없으니 제거 */
+.content-text h4:first-child {
+    margin-top: 0;
+}
+
+/* 설명글(p)도 너무 붙지 않게 */
+.content-text p {
+    margin-bottom: 30px;    /* 문단 아래쪽에 여백 추가 */
+    font-size: 1.1rem;      /* 본문 글자 크기 가독성 좋게 */
+    line-height: 1.8;       /* 줄 간격을 넓혀서 읽기 편하게 */
+}
+/* 표(table) 위아래 간격도 확보 */
+.content-text table {
+    margin-top: 10px;
+    margin-bottom: 50px;    /* 표 끝나고 다음 내용이랑 멀어지게 */
+}
+/* =========================================
+
+   유의사항 등 본문 리스트(ul, li) 및 강조(strong) 디자인
+
+   ========================================= */
+
+/* 리스트 전체 여백 및 들여쓰기 */
+.content-text ul {
+    margin-bottom: 30px;
+    padding-left: 25px;     /* 왼쪽으로 살짝 들여쓰기 해서 정돈된 느낌 주기 */
+}
+
+/* 리스트 안의 각 항목들 (동그라미 점) */
+.content-text ul li {
+    font-size: 1.1rem;      /* 읽기 편한 크기 */
+    line-height: 1.8;       /* 줄 간격 넉넉하게 */
+    color: #555;            /* 너무 진하지 않은 부드러운 검은색 */
+    margin-bottom: 8px;     /* 항목 사이의 간격 */
+    list-style-type: disc;  /* 까만 동그라미 기호(•) 넣기 */
+}
+
+/* 굵은 글씨(strong)에 파란색 포인트 주기 */
+.content-text strong {
+    color: #004098;         /* 마라톤 메인 컬러로 통일감 부여 */
+    font-weight: bold;
+}
+/* =========================================
+
+   [추가] 대회요강 상세 표 디자인 (용인마라톤 스타일)
+
+   ========================================= */
+
+/* 섹션 소제목 디자인 */
+.section-subtitle {
+    font-size: 1.4rem;
+    color: #004098;
+    border-bottom: 2px solid #004098;
+    padding-bottom: 10px;
+    margin: 40px 0 20px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* 표 전체 스타일 보완 */
+.info-table {
+    width: 100%;
+    border-top: 2px solid #333; /* 상단 진한 줄 */
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+/* 왼쪽 항목 제목 (th) */
+.info-table th {
+    background: #f8f9fa; /* 연한 회색 배경 */
+    color: #333;
+    font-weight: 600;
+    padding: 18px 15px;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #eee; /* 세로 구분선 */
+    text-align: left;
+    width: 25%; /* 제목 너비 고정 */
+}
+
+/* 오른쪽 내용 (td) */
+.info-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #ddd;
+    line-height: 1.6;
+    color: #444;
+    font-size: 1.05rem;
+}
+
+/* 표 내부 강조 텍스트 */
+.highlight-text {
+    color: #e63946; /* 빨간색 포인트 */
+    font-weight: bold;
+}
+
+/* 시간표(Schedule) 전용 스타일 */
+.schedule-table thead th {
+    text-align: center;
+    background: #f1f3f5;
+    border-right: 1px solid #ddd;
+}
+
+.schedule-table tbody td {
+    text-align: center;
+    border-right: 1px solid #eee;
+}
+
+/* 마지막 세로선 제거 */
+.schedule-table th:last-child,
+.schedule-table td:last-child {
+    border-right: none;
+}
+
+/* =========================================
+
+   [추가] 시흥 갯골마라톤 스타일 (박스 강조형)
+
+   ========================================= */
+
+/* 요약 정보 박스 컨테이너 */
+.info-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2열로 배치 */
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.info-card {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    padding: 25px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    border-color: #004098;
+    box-shadow: 0 10px 20px rgba(0, 64, 152, 0.05);
+}
+
+.info-card .icon-box {
+    background: #f0f4f9;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.info-card .text-box h5 {
+    font-size: 1.1rem;
+    color: #004098;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.info-card .text-box p {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* 참가비 등 강조가 필요한 큰 박스 */
+.info-full-card {
+    grid-column: span 2; /* 2칸을 다 차지 */
+    background: #f8faff;
+    border: 1px solid #d0dae9;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 10px;
+}
+
+.info-full-card h5 {
+    color: #004098;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.fee-list {
+    display: flex;
+    gap: 30px;
+}
+
+.fee-item strong {
+    font-size: 1.3rem;
+    color: #e63946;
+}
+
+/* =========================================
+
+   대회요강 페이지 - 볼드 & 시각적 강조 디자인
+
+   ========================================= */
+
+/* 1. 섹션 제목: 더 굵고 직관적으로 */
+.section-subtitle {
+    font-size: 1.6rem;
+    color: #004098;
+    font-weight: 800; /* Extra Bold 느낌 */
+    margin: 60px 0 30px 0;
+    padding-left: 18px;
+    border-left: 8px solid #004098; /* 선을 더 굵게 */
+    display: flex;
+    align-items: center;
+    letter-spacing: -1px;
+}
+
+/* 2. 카드 그리드 여백 조정 */
+.info-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px; /* 카드 사이 간격을 넓혀서 시원하게 */
+}
+
+/* 3. 카드 디자인: 볼드함과 입체감 부여 */
+.info-card {
+    background: #ffffff;
+    border: 2px solid #eef2f8; /* 테두리를 살짝 더 선명하게 */
+    border-radius: 20px; /* 더 둥글게 */
+    padding: 35px;
+    display: flex;
+    align-items: flex-start; /* 아이콘이 위에 고정되도록 */
+    gap: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* 은은한 그림자 */
+}
+
+.info-card:hover {
+    transform: translateY(-8px);
+    border-color: #004098;
+    box-shadow: 0 15px 35px rgba(0, 64, 152, 0.1);
+}
+
+/* 4. 아이콘 박스 강조 */
+.info-card .icon-box {
+    font-size: 2.5rem;
+    background: #f0f6ff;
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* 5. 카드 텍스트: 볼드체 극대화 */
+.info-card .text-box h5 {
+    font-size: 1.1rem;
+    color: #004098; /* 소제목도 파란색으로 변경 */
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.info-card .text-box p {
+    font-size: 1.25rem;
+    color: #1a1a1a;
+    font-weight: 700; /* 본문 전체 볼드 */
+    line-height: 1.5;
+    margin-bottom: 8px;
+    letter-spacing: -0.8px;
+}
+
+/* 설명글(작은 글씨) 처리 */
+.info-card .text-box p:last-child {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 500; /* 부연 설명은 살짝 가늘게 해서 대비를 줌 */
+    margin-top: 5px;
+}
+
+/* 6. 시간표(표) 디자인도 볼드하게 */
+.schedule-table {
+    border-top: 3px solid #004098;
+}
+
+.schedule-table th {
+    background: #f8faff;
+    font-weight: 800;
+    padding: 20px;
+    font-size: 1.1rem;
+}
+
+.schedule-table td {
+    padding: 20px;
+    font-weight: 700; /* 표 내용도 볼드 */
+    border-bottom: 1px solid #eee;
+}
+
+/* 4. 애니메이션 정의 (역동성 추가) */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+
+/* 후원사 섹션 스타일 */
+.sponsors {
+    background-color: #f9f9f9; /* 배경을 살짝 다르게 해서 구분감 주기 */
+    padding: 60px 0;
+    border-top: 1px solid #eee;
+}
+
+
+
+.sponsor-title {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #999;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.sponsor-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    opacity: 0.7; /* 로고들이 너무 튀지 않게 살짝 흐리게 */
+    filter: grayscale(100%); /* 로고들을 흑백으로 만들어 통일감 부여 (마우스 올리면 컬러로) */
+    transition: 0.3s;
+}
+
+.sponsor-grid:hover {
+    filter: grayscale(0%); /* 마우스 올리면 원래 색상으로 */
+    opacity: 1;
+}
+
+.sponsor-item img {
+    max-width: 160px;
+    height: auto;
+    display: block;
+}
+
+/* =========================================
+   모바일 & 반응형 스타일
+   ========================================= */
+
+/* 태블릿 & 작은 데스크탑 (1024px 이하) */
+@media (max-width: 1024px) {
+    .layout, .container {
+        flex-direction: column;
+        gap: 40px;
+    }
+    .sidebar {
+        width: 100%;
+        position: static;
+        margin-bottom: 20px;
+    }
+    .sidebar h3 {
+        font-size: 1.5rem;
+    }
+    .sidebar li a {
+        padding: 15px;
+        font-size: 1rem;
+    }
+    .page-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+/* 모바일 (768px 이하) */
+@media (max-width: 768px) {
+    /* 헤더 */
+    .header-inner {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+    }
+    .gnb {
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+        display: none; /* 기본적으로 메뉴 숨김 */
+    }
+    .gnb.active {
+        display: flex; /* 활성화 시 메뉴 보임 */
+    }
+    .gnb > li {
+        height: auto;
+        justify-content: center;
+    }
+    .main-menu {
+        padding: 15px 0;
+        font-size: 1.2rem;
+        width: 100%;
+        text-align: center;
+    }
+    .dropdown {
+        position: relative;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        border-top: none;
+        background: #f9f9f9;
+        display: none; /* 드롭다운도 기본 숨김 */
+    }
+    .gnb > li:hover .dropdown {
+        display: none; /* 호버 시 드롭다운 안나오게 */
+    }
+    .gnb > li.active .dropdown {
+        display: block; /* 활성화 시 드롭다운 보임 */
+    }
+
+    /* 햄버거 메뉴 */
+    .hamburger {
+        display: block;
+        position: absolute;
+        top: 25px;
+        right: 20px;
+        cursor: pointer;
+    }
+    .hamburger div {
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        margin: 5px 0;
+        transition: 0.4s;
+    }
+
+    /* 히어로 */
+    .hero {
+        height: 70vh;
+        background-attachment: scroll; /* 모바일은 고정 해제 */
+    }
+    .hero h1 {
+        font-size: 3rem;
+    }
+    .hero p {
+        font-size: 1.1rem;
+    }
+    .btn-group {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .btn-main, .btn-outline {
+        padding: 15px 30px;
+        font-size: 1rem;
+    }
+
+    /* 정보 그리드 */
+    .info-grid {
+        flex-direction: column;
+    }
+    .info-item {
+        width: 100%;
+        margin-bottom: 20px;
+        min-height: auto;
+        padding: 30px 0;
+    }
+    .info-item .icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+    .info-item h3 {
+        font-size: 1.5rem;
+    }
+    .info-item p {
+        font-size: 1.2rem;
+    }
+
+    /* 테이블 */
+    .board-table, .info-table, .schedule-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto; /* 가로 스크롤 생성 */
+    }
+    
+    /* 카드 */
+    .info-summary-grid {
+        grid-template-columns: 1fr;
+    }
+    .info-card {
+        padding: 25px;
+    }
+    .info-full-card {
+        grid-column: span 1;
+    }
+
+    /* 후원사 */
+    .sponsor-grid {
+        gap: 20px;
+    }
+    .sponsor-item img {
+        max-width: 100px;
+    }
+    
+    /* 푸터 */
+    footer {
+        padding: 20px;
+    }
+    footer p {
+        font-size: 0.8rem;
+    }
+}

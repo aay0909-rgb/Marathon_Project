@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 - HUFS Marathon</title>
+    
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    
+    <header>
+        <div class="header-inner">
+            <div class="logo"><a href="index.html">🏃 HUFS MARATHON</a></div>
+            <nav>
+                <ul class="gnb">
+                    <li>
+                        <a href="info.html" class="main-menu">대회안내</a>
+                        <ul class="dropdown">
+                            <li><a href="info.html">대회요강</a></li>
+                            <li><a href="map.html">광장 배치도</a></li>
+                            <li><a href="prize.html">경품 및 기념품 안내</a></li>
+                            <li><a href="awards.html">시상 안내</a></li>
+                            <li><a href="rules.html">참가자 유의사항</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="course.html" class="main-menu">대회코스</a>
+                        <ul class="dropdown">
+                            <li><a href="course.html">5km 코스</a></li>
+                            <li><a href="course.html">10km 코스</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="register.html" class="main-menu">참가신청</a>
+                        <ul class="dropdown">
+                            <li><a href="register.html">신청 및 취소 안내</a></li>
+                            <li><a href="#">10km 신청</a></li>
+                            <li><a href="#">5km 신청</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="notice.html" class="main-menu">게시판</a>
+                        <ul class="dropdown">
+                            <li><a href="notice.html">공지사항</a></li>
+                            <li><a href="#">사진 & 영상</a></li>
+                            <li><a href="#">종목 변경 문의</a></li>
+                            <li><a href="#">취소/환불 문의</a></li>
+                            <li><a href="#">자유게시판</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="sub-visual">
+        <h2>게시판</h2>
+        <p>NOTICE</p>
+    </div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>게시판</h3> <ul>
+                <li class="active"><a href="notice.html">공지사항</a></li>
+                <li><a href="#">사진 & 영상</a></li>
+                <li><a href="#">종목 변경 문의</a></li>
+                <li><a href="#">취소/환불 문의</a></li>
+                <li><a href="#">자유게시판</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <div class="page-title">
+                <h3>공지사항</h3>
+                <div class="breadcrumb">HOME > 게시판 > <strong>공지사항</strong></div>
+            </div>
+
+            <div class="content-text">
+        
+                <table class="board-table">
+        
+        <thead>
+            <tr>
+                <th style="width: 10%">번호</th>
+                <th>제목</th>
+                <th style="width: 15%">작성자</th>
+                <th style="width: 15%">작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><a href="#">[필독] 2026 대회 접수 시작 안내</a></td>
+                <td>관리자</td>
+                <td>2026.02.18</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+        </main>
+    </div> <footer>
+        <p>주최명: 한국외국어대학교 글로벌스포츠산업학부 | 대표: 노은담</p>
+        <p>HUFS Marathon | 경기도 용인시 처인구 외대로 81</p>
+        <p>Copyright © 2026 HUFS Marathon. All rights reserved.</p>
+    </footer>
+<script>
+    const hamburger = document.querySelector('.hamburger');
+    const gnb = document.querySelector('.gnb');
+
+    hamburger.addEventListener('click', () => {
+        gnb.classList.toggle('active');
+    });
+</script>
+</body>
+</html>

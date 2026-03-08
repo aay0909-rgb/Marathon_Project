@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대회코스 - 2026 HUFS Marathon</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo"><a href="index.html">🏃 HUFS MARATHON</a></div>
+            
+            <nav>
+                <ul class="gnb">
+                    <li>
+                        <a href="info.html" class="main-menu">대회안내</a>
+                        <ul class="dropdown">
+                            <li><a href="info.html">대회요강</a></li>
+                            <li><a href="map.html">광장 배치도</a></li>
+                            <li><a href="prize.html">경품 및 기념품 안내</a></li>
+                            <li><a href="awards.html">시상 안내</a></li>
+                            <li><a href="rules.html">참가자 유의사항</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="course.html" class="main-menu">대회코스</a>
+                        <ul class="dropdown">
+                            <li><a href="course.html#course5k">5km 코스</a></li>
+                            <li><a href="course.html#course10k">10km 코스</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="register.html" class="main-menu">참가신청</a>
+                        <ul class="dropdown">
+                            <li><a href="register.html">신청 및 취소 안내</a></li>
+                            <li><a href="#">10km 신청</a></li>
+                            <li><a href="#">5km 신청</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="notice.html" class="main-menu">게시판</a>
+                        <ul class="dropdown">
+                            <li><a href="notice.html">공지사항</a></li>
+                            <li><a href="#">사진 & 영상</a></li>
+                            <li><a href="#">종목 변경 문의</a></li>
+                            <li><a href="#">취소/환불 문의</a></li>
+                            <li><a href="#">자유게시판</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="sub-visual">
+        <h2>대회코스</h2>
+        <p>MARATHON COURSE</p>
+    </div>
+
+    <div class="container layout">
+        
+        <aside class="sidebar">
+            <h3>대회코스</h3>
+            <ul>
+                <li><a href="#course5k">5km 코스</a></li>
+                <li><a href="#course10k">10km 코스</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+    <div class="page-title">
+        <h3>대회 코스 상세안내</h3>
+        <div class="breadcrumb">HOME > 대회코스 > <strong>코스 안내</strong></div>
+    </div>
+
+    <div class="content-text">
+        <section id="course5k" style="margin-bottom: 80px; scroll-margin-top: 100px;">
+            <h4 style="font-size: 1.5rem; color: #007bff; border-left: 5px solid #007bff; padding-left: 15px;">🏃 5km 코스</h4>
+            <p style="margin: 15px 0;">용인종합운동장을 중심으로 경안천 변을 달리는 5km 순환 코스입니다.</p>
+            
+            <div class="map-box" style="margin: 20px 0; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+                <img src="images/course_5k.png" alt="5km 코스 지도" style="width: 100%; display: block;">
+            </div>
+        </section>
+
+        <hr style="margin: 50px 0; border: 0; border-top: 1px dashed #ccc;">
+
+        <section id="course10k" style="scroll-margin-top: 100px;">
+            <h4 style="font-size: 1.5rem; color: #e63946; border-left: 5px solid #e63946; padding-left: 15px;">🏅 10km 코스</h4>
+            <p style="margin: 15px 0;">5km 코스를 확장하여 더 먼 구간까지 왕복하는 10km 챌린지 코스입니다.</p>
+            
+            <div class="map-box" style="margin: 20px 0; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+                <img src="images/course_10k.png" alt="10km 코스 지도" style="width: 100%; display: block;">
+            </div>
+        </section>
+    </div>
+</main>
+    </div>
+
+    <footer>
+        <div class="footer-inner">
+            <p>주최명: 한국외국어대학교 글로벌스포츠산업학부 | 대표: 노은담</p>
+            <p>HUFS Marathon | 경기도 용인시 처인구 외대로 81</p>
+            <p>Copyright © 2026 HUFS Marathon. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const gnb = document.querySelector('.gnb');
+
+        hamburger.addEventListener('click', () => {
+            gnb.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
