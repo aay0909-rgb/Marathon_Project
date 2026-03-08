@@ -119,24 +119,32 @@
             gnb.classList.toggle('active');
         });
 
-        // 공지사항 데이터 불러오기
+        // 공지사항 데이터 불러오기 (GitHub API 활용 - 정적 사이트 한계 극복)
         document.addEventListener('DOMContentLoaded', async () => {
             const tableBody = document.getElementById('notice-table-body');
 
             try {
-                // 1. notices_index.json 에서 등록된 공지사항 파일 목록을 가져옴
-                const indexResponse = await fetch('/data/notices_index.json');
-                if (!indexResponse.ok) throw new Error('인덱스를 찾을 수 없습니다.');
-                const indexData = await indexResponse.json();
+                // 1. GitHub API를 통해 data/notices 폴더의 파일 목록을 가져옴
+                // 주의: 레포지토리가 Public이어야 이 방식이 동작합니다.
+                const repoOwner = 'aay0909-rgb';
+                const repoName = 'Marathon_Project';
+                const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/data/notices`;
 
-                if (!indexData.notices || indexData.notices.length === 0) {
+                const indexResponse = await fetch(apiUrl);
+                if (!indexResponse.ok) throw new Error('공지사항 목록을 가져올 수 없습니다.');
+                const files = await indexResponse.json();
+
+                // JSON 파일만 필터링
+                const jsonFiles = files.filter(file => file.name.endsWith('.json'));
+
+                if (jsonFiles.length === 0) {
                     tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">등록된 공지사항이 없습니다.</td></tr>';
                     return;
                 }
 
-                // 2. 각 공지사항 파일을 병렬로 가져옴
-                const fetchPromises = indexData.notices.map(async (item) => {
-                    const res = await fetch('/data/' + item.file);
+                // 2. 각 공지사항 파일을 병렬로 가져옴 (raw.githubusercontent.com 활용)
+                const fetchPromises = jsonFiles.map(async (file) => {
+                    const res = await fetch(file.download_url);
                     if (res.ok) return await res.json();
                     return null;
                 });
@@ -160,7 +168,7 @@
 
             } catch (error) {
                 console.error('공지사항 로딩 실패:', error);
-                tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">공지사항을 불러오는데 실패했습니다.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">공지사항을 불러오는데 실패했습니다. (GitHub API 연동 오류)</td></tr>';
             }
         });
     </script>
