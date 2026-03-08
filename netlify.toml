@@ -1,2 +1,9 @@
+[build]
+  publish = "/"
+  command = "echo 'No build command needed'"
+
+[build.environment]
+  NODE_VERSION = "18"
+
 [functions]
   directory = "netlify/functions"

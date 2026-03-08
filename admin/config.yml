@@ -1,0 +1,21 @@
+backend:
+  name: github
+  repo: aay0909-rgb/Marathon_Project # 깃허브 저장소 주소 (경로 형식: 소유자/레포지토리)
+  branch: main # 기본 배포 브랜치
+
+# 이미지 업로드 설정 (로컬 및 CMS 업로드용)
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "notice"
+    label: "공지사항"
+    folder: "data/notices"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    format: "json" # Markdown 대신 JSON 형태로 데이터를 저장하여 HTML 자바스크립트에서 바로 읽어오기 쉽게 만듦
+    fields:
+      - {label: "제목", name: "title", widget: "string"}
+      - {label: "작성자", name: "author", widget: "string", default: "관리자"}
+      - {label: "작성일", name: "date", widget: "datetime", format: "YYYY.MM.DD", date_format: "YYYY.MM.DD", time_format: false}
+      - {label: "내용", name: "body", widget: "markdown"}
