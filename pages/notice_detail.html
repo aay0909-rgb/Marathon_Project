@@ -90,6 +90,8 @@
         <p>Copyright © 2026 HUFS Marathon. All rights reserved.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/gray-matter@4.0.3/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@3.0.7/marked.min.js"></script>
     <script>
         const hamburger = document.querySelector('.hamburger');
         const gnb = document.querySelector('.gnb');
@@ -99,21 +101,50 @@
         });
 
         // URL 파라미터에서 데이터 읽어와 화면에 채우기
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
+            const slug = params.get('slug');
 
-            const title = params.get('title');
-            const date = params.get('date');
-            const author = params.get('author');
-            const body = params.get('body');
+            if (slug) {
+                try {
+                    document.getElementById('notice-title').textContent = "불러오는 중...";
 
-            if (title) {
-                document.getElementById('notice-title').textContent = title;
-                document.getElementById('notice-date').textContent = date;
-                document.getElementById('notice-author').textContent = author;
+                    const response = await fetch(`/.netlify/git/github/contents/notice/${slug}.md`);
+                    if (!response.ok) throw new Error('게시물을 불러오는 데 실패했습니다.');
 
-                // 줄바꿈 문자를 HTML <br> 태그로 변환
-                document.getElementById('notice-body').innerHTML = decodeURIComponent(body).replace(/\n/g, '<br>');
+                    const file = await response.json();
+
+                    // base64 디코딩
+                    const base64DecodeUnicode = (str) => {
+                        return decodeURIComponent(atob(str).split('').map(function (c) {
+                            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                        }).join(''));
+                    };
+
+                    let text = '';
+                    try {
+                        text = base64DecodeUnicode(file.content);
+                    } catch (e) {
+                        text = atob(file.content); // 폴백
+                    }
+
+                    const { data, content } = matter(text);
+
+                    const postDate = new Date(data.date);
+                    const formattedDate = !isNaN(postDate) ? postDate.toLocaleDateString() : '날짜 없음';
+
+                    document.getElementById('notice-title').textContent = data.title || "제목 없음";
+                    document.getElementById('notice-date').textContent = formattedDate;
+                    document.getElementById('notice-author').textContent = data.author || "관리자";
+
+                    // 마크다운을 HTML로 변환
+                    document.getElementById('notice-body').innerHTML = marked(content);
+
+                } catch (error) {
+                    console.error(error);
+                    document.getElementById('notice-title').textContent = "오류 발생";
+                    document.getElementById('notice-body').textContent = "게시글 정보를 가져오지 못했습니다.";
+                }
             } else {
                 document.getElementById('notice-title').textContent = "잘못된 접근입니다.";
                 document.getElementById('notice-body').textContent = "게시글 정보를 찾을 수 없습니다.";

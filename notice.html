@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판 - HUFS Marathon</title>
-    
+
     <link rel="stylesheet" href="style.css">
     <style>
         .content-row td {
@@ -12,26 +13,33 @@
             background-color: #f9f9f9;
             text-align: left;
         }
-        .content-row h1, .content-row h2, .content-row h3 {
+
+        .content-row h1,
+        .content-row h2,
+        .content-row h3 {
             margin-top: 20px;
             margin-bottom: 10px;
             color: #004098;
         }
+
         .content-row p {
             line-height: 1.8;
         }
+
         .content-row img {
             max-width: 100%;
             height: auto;
             margin: 15px 0;
         }
+
         .board-table a {
             cursor: pointer;
         }
     </style>
 </head>
+
 <body>
-    
+
     <header>
         <div class="header-inner">
             <div class="logo"><a href="index.html">🏃 HUFS MARATHON</a></div>
@@ -89,7 +97,8 @@
 
     <div class="container">
         <aside class="sidebar">
-            <h3>게시판</h3> <ul>
+            <h3>게시판</h3>
+            <ul>
                 <li class="active"><a href="notice.html">공지사항</a></li>
                 <li><a href="#">사진 & 영상</a></li>
                 <li><a href="#">종목 변경 문의</a></li>
@@ -171,9 +180,11 @@
                     const row = document.createElement('tr');
                     const postDate = new Date(post.date);
                     const formattedDate = !isNaN(postDate) ? postDate.toLocaleDateString() : '유효하지 않은 날짜';
+
+                    // 제목 클릭 시 notice_detail.html로 이동하도록 수정 (slug 파라미터 전달)
                     row.innerHTML = `
                         <td>${posts.length - index}</td>
-                        <td><a class="notice-title" data-slug="${post.slug}">${post.title || '제목 없음'}</a></td>
+                        <td style="text-align: left;"><a href="pages/notice_detail.html?slug=${post.slug}">${post.title || '제목 없음'}</a></td>
                         <td>관리자</td>
                         <td>${formattedDate}</td>
                     `;
@@ -208,11 +219,11 @@
                     const file = await response.json();
                     const text = atob(file.content);
                     const { content } = matter(text);
-                    
+
                     const contentRow = document.createElement('tr');
                     contentRow.classList.add('content-row');
                     contentRow.innerHTML = `<td colspan="4">${marked(content)}</td>`;
-                    
+
                     parentRow.after(contentRow);
 
                 } catch (error) {
@@ -225,4 +236,5 @@
         fetchNotices();
     </script>
 </body>
+
 </html>
