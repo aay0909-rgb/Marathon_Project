@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판 - HUFS Marathon</title>
-    
-    <link rel="stylesheet" href="style.css"> 
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+
     <header>
         <div class="header-inner">
             <div class="logo"><a href="index.html">🏃 HUFS MARATHON</a></div>
@@ -66,7 +68,8 @@
 
     <div class="container">
         <aside class="sidebar">
-            <h3>게시판</h3> <ul>
+            <h3>게시판</h3>
+            <ul>
                 <li class="active"><a href="notice.html">공지사항</a></li>
                 <li><a href="#">사진 & 영상</a></li>
                 <li><a href="#">종목 변경 문의</a></li>
@@ -82,41 +85,85 @@
             </div>
 
             <div class="content-text">
-        
+
                 <table class="board-table">
-        
-        <thead>
-            <tr>
-                <th style="width: 10%">번호</th>
-                <th>제목</th>
-                <th style="width: 15%">작성자</th>
-                <th style="width: 15%">작성일</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td><a href="#">[필독] 2026 대회 접수 시작 안내</a></td>
-                <td>관리자</td>
-                <td>2026.02.18</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">번호</th>
+                            <th>제목</th>
+                            <th style="width: 15%">작성자</th>
+                            <th style="width: 15%">작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody id="notice-table-body">
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px;">공지사항을 불러오는 중입니다...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </main>
-    </div> <footer>
+    </div>
+    <footer>
         <p>주최명: 한국외국어대학교 글로벌스포츠산업학부 | 대표: 노은담</p>
         <p>HUFS Marathon | 경기도 용인시 처인구 외대로 81</p>
         <p>Copyright © 2026 HUFS Marathon. All rights reserved.</p>
     </footer>
-<script>
-    const hamburger = document.querySelector('.hamburger');
-    const gnb = document.querySelector('.gnb');
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const gnb = document.querySelector('.gnb');
 
-    hamburger.addEventListener('click', () => {
-        gnb.classList.toggle('active');
-    });
-</script>
+        hamburger.addEventListener('click', () => {
+            gnb.classList.toggle('active');
+        });
+
+        // 공지사항 데이터 불러오기
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tableBody = document.getElementById('notice-table-body');
+
+            try {
+                // 1. notices_index.json 에서 등록된 공지사항 파일 목록을 가져옴
+                const indexResponse = await fetch('/data/notices_index.json');
+                if (!indexResponse.ok) throw new Error('인덱스를 찾을 수 없습니다.');
+                const indexData = await indexResponse.json();
+
+                if (!indexData.notices || indexData.notices.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">등록된 공지사항이 없습니다.</td></tr>';
+                    return;
+                }
+
+                // 2. 각 공지사항 파일을 병렬로 가져옴
+                const fetchPromises = indexData.notices.map(async (item) => {
+                    const res = await fetch('/data/' + item.file);
+                    if (res.ok) return await res.json();
+                    return null;
+                });
+
+                let notices = await Promise.all(fetchPromises);
+                notices = notices.filter(n => n !== null); // 에러난 파일 제외
+
+                // 3. 날짜 기준 최신순 정렬
+                notices.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                // 4. 테이블에 렌더링
+                tableBody.innerHTML = notices.map((notice, index) => `
+                <tr>
+                    <td>${notices.length - index}</td>
+                    <!-- 팝업 등을 띄우려면 a 태그와 onclick 이벤트 등을 연결할 수 있습니다 -->
+                    <td><a href="#" onclick="alert('${notice.title}\\n\\n' + decodeURIComponent('${encodeURIComponent(notice.body)}')); return false;">${notice.title}</a></td>
+                    <td>${notice.author || '관리자'}</td>
+                    <td>${notice.date}</td>
+                </tr>
+            `).join('');
+
+            } catch (error) {
+                console.error('공지사항 로딩 실패:', error);
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">공지사항을 불러오는데 실패했습니다.</td></tr>';
+            }
+        });
+    </script>
 </body>
+
 </html>
