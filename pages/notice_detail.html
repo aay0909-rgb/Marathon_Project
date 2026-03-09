@@ -117,7 +117,7 @@
                     document.getElementById('notice-title').textContent = data.title || "제목 없음";
                     document.getElementById('notice-date').textContent = formattedDate;
                     document.getElementById('notice-author').textContent = data.author || "관리자";
-                    document.getElementById('notice-body').innerHTML = marked(data.content || '');
+                    document.getElementById('notice-body').innerHTML = marked(data.body || '');
 
                 } catch (error) {
                     console.error(error);
