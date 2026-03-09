@@ -69,7 +69,6 @@
                             <li><a href="#">사진 & 영상</a></li>
                             <li><a href="#">종목 변경 문의</a></li>
                             <li><a href="#">취소/환불 문의</a></li>
-                            <li><a href="#">자유게시판</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -94,7 +93,6 @@
                 <li><a href="#">사진 & 영상</a></li>
                 <li><a href="#">종목 변경 문의</a></li>
                 <li><a href="#">취소/환불 문의</a></li>
-                <li><a href="#">자유게시판</a></li>
             </ul>
         </aside>
 
@@ -127,7 +125,6 @@
         <p>Copyright © 2026 HUFS Marathon. All rights reserved.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/gray-matter@4.0.3/index.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@3.0.7/marked.min.js"></script>
     <script>
         const hamburger = document.querySelector('.hamburger');
@@ -138,39 +135,52 @@
         });
 
         const tbody = document.querySelector('.board-table tbody');
+        let noticesStore = {}; // 공지 데이터 저장소
 
         async function fetchNotices() {
             try {
-                const response = await fetch('/.netlify/git/github/contents/notice');
+                // 1. notices_index.json 가져오기
+                const response = await fetch('/data/notices_index.json');
                 if (!response.ok) {
-                    throw new Error('공지사항을 불러오는 데 실패했습니다.');
+                    throw new Error('공지사항 목록을 불러오는 데 실패했습니다.');
                 }
-                const files = await response.json();
+                const indexData = await response.json();
 
-                if (!files.length) {
+                if (!indexData.notices || !indexData.notices.length) {
                     const row = document.createElement('tr');
                     row.innerHTML = `<td colspan="4">공지사항이 없습니다.</td>`;
                     tbody.appendChild(row);
                     return;
                 }
 
-                const promises = files.map(async (file) => {
-                    const res = await fetch(file.download_url);
-                    const text = await res.text();
-                    const { data, content } = matter(text);
-                    data.slug = file.name.replace('.md', '');
-                    data.content = content;
-                    return data;
-                });
+                // 2. 각 공지 파일의 내용을 가져오기
+                const promises = indexData.notices.map(notice => 
+                    fetch(`/data/${notice.file}`)
+                        .then(res => {
+                            if (!res.ok) {
+                                throw new Error(`${notice.file} 파일을 불러오는 데 실패했습니다.`);
+                            }
+                            return res.json();
+                        })
+                        .then(data => {
+                            const slug = notice.file.split('/').pop().replace('.json', '');
+                            data.slug = slug;
+                            noticesStore[slug] = data; // 데이터 저장소에 저장
+                            return data;
+                        })
+                );
 
                 let posts = await Promise.all(promises);
-                posts = posts.filter(p => Object.keys(p).length > 1);
+                
+                // 3. 날짜순으로 정렬
                 posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
+                // 4. 테이블에 공지사항 목록 표시
                 posts.forEach((post, index) => {
                     const row = document.createElement('tr');
                     const postDate = new Date(post.date);
                     const formattedDate = !isNaN(postDate) ? postDate.toLocaleDateString() : '유효하지 않은 날짜';
+                    
                     row.innerHTML = `
                         <td>${posts.length - index}</td>
                         <td><a class="notice-title" data-slug="${post.slug}">${post.title || '제목 없음'}</a></td>
@@ -188,7 +198,7 @@
             }
         }
 
-        tbody.addEventListener('click', async (e) => {
+        tbody.addEventListener('click', (e) => {
             if (e.target.classList.contains('notice-title')) {
                 const titleLink = e.target;
                 const parentRow = titleLink.closest('tr');
@@ -197,26 +207,20 @@
                 const existingContentRow = parentRow.nextElementSibling;
                 if (existingContentRow && existingContentRow.classList.contains('content-row')) {
                     existingContentRow.remove();
-                    return;
+                    return; // 이미 열려있으면 닫고 종료
                 }
 
-                try {
-                    const response = await fetch(`/.netlify/git/github/contents/notice/${slug}.md`);
-                    if (!response.ok) {
-                        throw new Error('게시물을 불러오는 데 실패했습니다.');
-                    }
-                    const file = await response.json();
-                    const text = atob(file.content);
-                    const { content } = matter(text);
-                    
+                const post = noticesStore[slug]; // 저장소에서 공지 데이터 가져오기
+
+                if (post && post.content) {
                     const contentRow = document.createElement('tr');
                     contentRow.classList.add('content-row');
-                    contentRow.innerHTML = `<td colspan="4">${marked(content)}</td>`;
+                    // marked.js를 사용하여 Markdown을 HTML로 변환
+                    contentRow.innerHTML = `<td colspan="4">${marked(post.content)}</td>`;
                     
                     parentRow.after(contentRow);
-
-                } catch (error) {
-                    console.error(error);
+                } else {
+                    console.error('해당 공지사항의 내용을 찾을 수 없습니다.');
                     alert('게시물 내용을 불러오는 데 실패했습니다.');
                 }
             }
