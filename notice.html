@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판 - HUFS Marathon</title>
-    
+
     <link rel="stylesheet" href="style.css">
     <style>
         .content-row td {
@@ -12,26 +13,33 @@
             background-color: #f9f9f9;
             text-align: left;
         }
-        .content-row h1, .content-row h2, .content-row h3 {
+
+        .content-row h1,
+        .content-row h2,
+        .content-row h3 {
             margin-top: 20px;
             margin-bottom: 10px;
             color: #004098;
         }
+
         .content-row p {
             line-height: 1.8;
         }
+
         .content-row img {
             max-width: 100%;
             height: auto;
             margin: 15px 0;
         }
+
         .board-table a {
             cursor: pointer;
         }
     </style>
 </head>
+
 <body>
-    
+
     <header>
         <div class="header-inner">
             <div class="logo"><a href="index.html">🏃 HUFS MARATHON</a></div>
@@ -88,7 +96,8 @@
 
     <div class="container">
         <aside class="sidebar">
-            <h3>게시판</h3> <ul>
+            <h3>게시판</h3>
+            <ul>
                 <li class="active"><a href="notice.html">공지사항</a></li>
                 <li><a href="#">사진 & 영상</a></li>
                 <li><a href="#">종목 변경 문의</a></li>
@@ -135,7 +144,6 @@
         });
 
         const tbody = document.querySelector('.board-table tbody');
-        let noticesStore = {}; // 공지 데이터 저장소
 
         async function fetchNotices() {
             try {
@@ -165,7 +173,6 @@
                         .then(data => {
                             const slug = notice.file.split('/').pop().replace('.json', '');
                             data.slug = slug;
-                            noticesStore[slug] = data; // 데이터 저장소에 저장
                             return data;
                         })
                 );
@@ -183,7 +190,7 @@
                     
                     row.innerHTML = `
                         <td>${posts.length - index}</td>
-                        <td><a class="notice-title" data-slug="${post.slug}">${post.title || '제목 없음'}</a></td>
+                        <td style="text-align: left;"><a href="pages/notice_detail.html?slug=${post.slug}">${post.title || '제목 없음'}</a></td>
                         <td>관리자</td>
                         <td>${formattedDate}</td>
                     `;
@@ -198,35 +205,8 @@
             }
         }
 
-        tbody.addEventListener('click', (e) => {
-            if (e.target.classList.contains('notice-title')) {
-                const titleLink = e.target;
-                const parentRow = titleLink.closest('tr');
-                const slug = titleLink.dataset.slug;
-
-                const existingContentRow = parentRow.nextElementSibling;
-                if (existingContentRow && existingContentRow.classList.contains('content-row')) {
-                    existingContentRow.remove();
-                    return; // 이미 열려있으면 닫고 종료
-                }
-
-                const post = noticesStore[slug]; // 저장소에서 공지 데이터 가져오기
-
-                if (post && post.content) {
-                    const contentRow = document.createElement('tr');
-                    contentRow.classList.add('content-row');
-                    // marked.js를 사용하여 Markdown을 HTML로 변환
-                    contentRow.innerHTML = `<td colspan="4">${marked(post.content)}</td>`;
-                    
-                    parentRow.after(contentRow);
-                } else {
-                    console.error('해당 공지사항의 내용을 찾을 수 없습니다.');
-                    alert('게시물 내용을 불러오는 데 실패했습니다.');
-                }
-            }
-        });
-
         fetchNotices();
     </script>
 </body>
+
 </html>
