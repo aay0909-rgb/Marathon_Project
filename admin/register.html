@@ -63,11 +63,13 @@
 
         async function fetchRegistrations() {
             try {
-                const response = await fetch('/registrations');
+                // Netlify 정적 호스팅에 맞게 깃허브에서 직접 json을 가져옴
+                const response = await fetch('https://raw.githubusercontent.com/aay0909-rgb/Marathon_Project/main/registrations.json?t=' + new Date().getTime());
                 if (!response.ok) {
                     throw new Error('참가자 목록을 불러오는 데 실패했습니다.');
                 }
-                const registrations = await response.json();
+                const data = await response.json();
+                const registrations = data.registrants || [];
 
                 const tbody = document.querySelector('#registrationsTable tbody');
                 tbody.innerHTML = '';
