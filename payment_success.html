@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+</head>
+<body>
+    <h1>결제 성공!</h1>
+    <p>참가 신청이 완료되었습니다.</p>
+    <p>주문 번호: <span id="orderId"></span></p>
+
+    <script>
+        console.log('payment_success.html script executed');
+        const urlParams = new URLSearchParams(window.location.search);
+        const data = Object.fromEntries(urlParams.entries());
+
+        document.getElementById('orderId').textContent = data.orderId;
+
+        fetch('/success', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.error('Error sending data to backend');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    </script>
+</body>
+</html>
