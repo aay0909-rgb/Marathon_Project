@@ -33,14 +33,17 @@
         <table id="registrationsTable">
             <thead>
                 <tr>
-                    <th>코스</th>
-                    <th>이름</th>
-                    <th>생년월일</th>
-                    <th>성별</th>
-                    <th>연락처</th>
-                    <th>이메일</th>
-                    <th>비상 연락처</th>
-                    <th>티셔츠 사이즈</th>
+                    <th>Type</th>
+                    <th>Course</th>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Emergency Contact</th>
+                    <th>T-shirt Size</th>
+                    <th>Group Name</th>
+                    <th>Participant Count</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,14 +75,17 @@
                 registrations.forEach(registration => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${registration.course}</td>
+                        <td>${registration.type}</td>
+                        <td>${registration.course || ''}</td>
                         <td>${registration.name}</td>
-                        <td>${registration.dob}</td>
-                        <td>${registration.gender}</td>
+                        <td>${registration.dob || ''}</td>
+                        <td>${registration.gender || ''}</td>
                         <td>${registration.phone}</td>
                         <td>${registration.email}</td>
-                        <td>${registration.emergency_contact}</td>
-                        <td>${registration.tshirt_size}</td>
+                        <td>${registration.emergency_contact || ''}</td>
+                        <td>${registration.tshirt_size || ''}</td>
+                        <td>${registration.group_name || ''}</td>
+                        <td>${registration.participant_count || ''}</td>
                     `;
                     tbody.appendChild(row);
                 });

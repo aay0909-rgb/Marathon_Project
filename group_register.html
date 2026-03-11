@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>참가신청 - 2026 HUFS Marathon</title>
-    <script src="https://js.tosspayments.com/v1"></script>
+    <title>단체참가 신청 - 2026 HUFS Marathon</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -71,20 +70,24 @@
         
         <aside class="sidebar">
         <h3>참가신청</h3> <ul>
-            <li class="active"><a href="register.html">참가신청</a></li>
-            <li><a href="group_register.html">단체참가 신청</a></li>
+            <li><a href="register.html">참가신청</a></li>
+            <li class="active"><a href="group_register.html">단체참가 신청</a></li>
             <li><a href="#">참가신청 조회</a></li>
         </ul>
     </aside>
 
     <main class="content">
         <div class="page-title">
-            <h3>참가신청</h3>
-            <div class="breadcrumb">HOME > 참가 신청 > <strong>참가신청</strong></div>
+            <h3>단체참가 신청</h3>
+            <div class="breadcrumb">HOME > 참가 신청 > <strong>단체참가 신청</strong></div>
         </div>
 
         <div class="content-text">
+            <div class="info-box">
+                <p>단체 신청은 20인 이상부터 가능하며, 단체 참가팀에게는 부스를 제공해드립니다.</p>
+            </div>
             <form id="registrationForm" action="/register" method="POST">
+                <input type="hidden" name="type" value="group">
                 <h4>🏃 참가 코스 선택</h4>
                 <div class="course-selection">
                     <input type="radio" id="10km" name="course" value="10km" checked>
@@ -95,41 +98,24 @@
 
                 <h4>📝 참가자 정보 입력</h4>
                 <div class="form-group">
-                    <label for="name">이름</label>
+                    <label for="group_name">단체명</label>
+                    <input type="text" id="group_name" name="group_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">대표자 이름</label>
                     <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="dob">생년월일</label>
-                    <input type="date" id="dob" name="dob" required>
-                </div>
-                <div class="form-group">
-                    <label for="gender">성별</label>
-                    <select id="gender" name="gender" required>
-                        <option value="male">남성</option>
-                        <option value="female">여성</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="phone">연락처</label>
+                    <label for="phone">대표자 연락처</label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">이메일</label>
+                    <label for="email">대표자 이메일</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="emergency_contact">비상 연락처</label>
-                    <input type="tel" id="emergency_contact" name="emergency_contact" required>
-                </div>
-                <div class="form-group">
-                    <label for="tshirt_size">기념 티셔츠 사이즈</label>
-                    <select id="tshirt_size" name="tshirt_size" required>
-                        <option value="S">S (90)</option>
-                        <option value="M">M (95)</option>
-                        <option value="L">L (100)</option>
-                        <option value="XL">XL (105)</option>
-                        <option value="XXL">XXL (110)</option>
-                    </select>
+                    <label for="participant_count">참가 인원</label>
+                    <input type="number" id="participant_count" name="participant_count" min="20" required>
                 </div>
 
                 <h4>📜 개인정보 수집 및 이용 동의</h4>
@@ -141,7 +127,7 @@ HUFS Marathon은 다음의 목적을 위하여 개인정보를 처리합니다. 
 - 서비스 제공: 대회 관련 정보 제공(이메일, 문자), 이벤트 및 광고성 정보 제공
 
 제2조 (수집하는 개인정보의 항목)
-- 필수항목: 이름, 생년월일, 성별, 연락처, 이메일, 비상 연락처
+- 필수항목: 단체명, 대표자 이름, 대표자 연락처, 대표자 이메일, 참가 인원
 - 선택항목: 없음
 
 제3조 (개인정보의 처리 및 보유 기간)

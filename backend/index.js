@@ -14,6 +14,9 @@ app.use(express.static('..')); // Serve files from the root directory
 
 app.post('/register', async (req, res) => {
     const registrationData = req.body;
+    if (!registrationData.type) {
+        registrationData.type = 'individual';
+    }
 
     try {
         let registrations = [];
