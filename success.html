@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 성공 - 2026 HUFS Marathon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container layout">
+        <main class="content">
+            <div class="page-title">
+                <h3>결제 완료</h3>
+            </div>
+            <div class="content-text">
+                <h4>🎉 참가 신청이 완료되었습니다.</h4>
+                <p>성공적으로 결제가 완료되었습니다. 마라톤에서 만나요!</p>
+                <p><strong>주문번호:</strong> <span id="orderId"></span></p>
+                <a href="index.html" class="btn-main">홈으로 돌아가기</a>
+            </div>
+        </main>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        document.getElementById('orderId').textContent = orderId;
+    </script>
+</body>
+</html>

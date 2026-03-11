@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>참가자 목록 - HUFS Marathon</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>참가자 목록</h1>
+        <table id="registrationsTable">
+            <thead>
+                <tr>
+                    <th>코스</th>
+                    <th>이름</th>
+                    <th>생년월일</th>
+                    <th>성별</th>
+                    <th>연락처</th>
+                    <th>이메일</th>
+                    <th>비상 연락처</th>
+                    <th>티셔츠 사이즈</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const password = prompt('Please enter the password to view this page:');
+            if (password === '1234') {
+                fetchRegistrations();
+            } else {
+                alert('Incorrect password.');
+            }
+        }
+
+        async function fetchRegistrations() {
+            try {
+                const response = await fetch('/registrations');
+                if (!response.ok) {
+                    throw new Error('참가자 목록을 불러오는 데 실패했습니다.');
+                }
+                const registrations = await response.json();
+
+                const tbody = document.querySelector('#registrationsTable tbody');
+                tbody.innerHTML = '';
+
+                registrations.forEach(registration => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${registration.course}</td>
+                        <td>${registration.name}</td>
+                        <td>${registration.dob}</td>
+                        <td>${registration.gender}</td>
+                        <td>${registration.phone}</td>
+                        <td>${registration.email}</td>
+                        <td>${registration.emergency_contact}</td>
+                        <td>${registration.tshirt_size}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error(error);
+                alert(error.message);
+            }
+        }
+
+        checkPassword();
+    </script>
+</body>
+</html>
