@@ -58,8 +58,8 @@
                     <li>
                         <a href="course.html" class="main-menu">대회코스</a>
                         <ul class="dropdown">
-                            <li><a href="course.html">5km 코스</a></li>
-                            <li><a href="course.html">10km 코스</a></li>
+                            <li><a href="course.html#course5k">5km 코스</a></li>
+                            <li><a href="course.html#course10k">10km 코스</a></li>
                         </ul>
                     </li>
                     <li>
@@ -177,7 +177,10 @@
                         })
                 );
 
-                let posts = await Promise.all(promises);
+                const results = await Promise.allSettled(promises);
+                let posts = results
+                    .filter(result => result.status === 'fulfilled')
+                    .map(result => result.value);
                 
                 // 3. 날짜순으로 정렬
                 posts.sort((a, b) => new Date(b.date) - new Date(a.date));
