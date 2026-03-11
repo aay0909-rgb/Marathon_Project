@@ -19,3 +19,28 @@ collections:
       - {label: "작성자", name: "author", widget: "string", default: "관리자"}
       - {label: "작성일", name: "date", widget: "datetime", format: "YYYY.MM.DD", date_format: "YYYY.MM.DD", time_format: false}
       - {label: "내용", name: "body", widget: "markdown"}
+
+  - name: "registrations"
+    label: "참가자 명단"
+    file: "registrations.json" # 단일 파일
+    format: "json"
+    fields:
+      - name: "registrants"
+        label: "참가자"
+        widget: "list"
+        fields:
+          - {label: "코스", name: "course", widget: "string"}
+          - {label: "이름", name: "name", widget: "string"}
+          - {label: "생년월일", name: "dob", widget: "string"}
+          - {label: "성별", name: "gender", widget: "string"}
+          - {label: "연락처", name: "phone", widget: "string"}
+          - {label: "이메일", name: "email", widget: "string"}
+          - {label: "비상연락처", name: "emergency_contact", widget: "string"}
+          - {label: "티셔츠 사이즈", name: "tshirt_size", widget: "string"}
+          - {label: "주문번호", name: "orderId", widget: "string", disabled: true}
+          - label: "결제 상태"
+            name: "paymentStatus"
+            widget: "select"
+            options:
+              - {label: "입금 대기", value: "pending_transfer"}
+              - {label: "입금 완료", value: "DONE"}

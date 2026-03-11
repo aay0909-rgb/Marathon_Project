@@ -13,16 +13,68 @@ app.use(cors());
 app.use(express.static('..')); // Serve files from the root directory
 
 app.post('/register', async (req, res) => {
-    // This endpoint is no longer responsible for saving data.
-    // The data is saved after successful payment in the /success endpoint.
-    res.status(200).send('OK');
+    console.log('--- /register endpoint hit for bank transfer ---');
+    console.log('Request body:', req.body);
+
+    const { course, name, dob, gender, phone, email, emergency_contact, tshirt_size } = req.body;
+    
+    try {
+        const registrationData = {
+            type: 'individual',
+            course,
+            name,
+            dob,
+            gender,
+            phone,
+            email,
+            emergency_contact,
+            tshirt_size,
+            orderId: `bank-${new Date().getTime()}`, // Create a unique ID for bank transfers
+            paymentStatus: 'pending_transfer' // Mark as pending bank transfer
+        };
+
+        let dataWrapper = { registrants: [] };
+        try {
+            const fileContents = await fs.readFile('registrations.json', 'utf8');
+            // Ensure that even if the file is empty, we have a valid object.
+            dataWrapper = fileContents ? JSON.parse(fileContents) : { registrants: [] };
+            if (!dataWrapper.registrants) { // Handle case where the file exists but is not in the correct format
+                dataWrapper = { registrants: [] };
+            }
+            console.log('Successfully read registrations.json');
+        } catch (error) {
+            if (error.code !== 'ENOENT') {
+                console.error('Error reading registrations.json:', error);
+                throw error; // Propagate error if it's not a "file not found" error
+            }
+            console.log('registrations.json not found, creating new file.');
+        }
+
+        dataWrapper.registrants.push(registrationData);
+        
+        try {
+            await fs.writeFile('registrations.json', JSON.stringify(dataWrapper, null, 2));
+            console.log('Successfully wrote to registrations.json for pending transfer.');
+        } catch (writeError) {
+            console.error('Error writing to registrations.json:', writeError);
+            throw writeError; // Propagate write error
+        }
+
+        console.log('Registration for bank transfer successful');
+        res.status(200).send('OK');
+
+    } catch (error) {
+        console.error('--- Error in /register endpoint ---');
+        console.error(error);
+        res.status(500).send('Error processing registration');
+    }
 });
 
 app.get('/registrations', async (req, res) => {
     try {
-        const data = await fs.readFile('registrations.json', 'utf8');
-        const registrations = JSON.parse(data);
-        res.json(registrations);
+        const fileContents = await fs.readFile('registrations.json', 'utf8');
+        const data = fileContents ? JSON.parse(fileContents) : { registrants: [] };
+        res.json(data.registrants || []);
     } catch (error) {
         if (error.code === 'ENOENT') {
             res.json([]);
@@ -72,10 +124,13 @@ app.post('/success', async (req, res) => {
                 paymentStatus: 'DONE'
             };
 
-            let registrations = [];
+            let dataWrapper = { registrants: [] };
             try {
-                const data = await fs.readFile('registrations.json', 'utf8');
-                registrations = JSON.parse(data);
+                const fileContents = await fs.readFile('registrations.json', 'utf8');
+                dataWrapper = fileContents ? JSON.parse(fileContents) : { registrants: [] };
+                if (!dataWrapper.registrants) {
+                    dataWrapper = { registrants: [] };
+                }
                 console.log('Successfully read registrations.json');
             } catch (error) {
                 if (error.code !== 'ENOENT') {
@@ -85,10 +140,10 @@ app.post('/success', async (req, res) => {
                 console.log('registrations.json not found, creating new file.');
             }
 
-            registrations.push(registrationData);
+            dataWrapper.registrants.push(registrationData);
             
             try {
-                await fs.writeFile('registrations.json', JSON.stringify(registrations, null, 2));
+                await fs.writeFile('registrations.json', JSON.stringify(dataWrapper, null, 2));
                 console.log('Successfully wrote to registrations.json');
             } catch (writeError) {
                 console.error('Error writing to registrations.json:', writeError);
